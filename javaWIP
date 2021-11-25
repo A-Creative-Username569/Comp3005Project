@@ -1,0 +1,40 @@
+public class Main
+{
+	public static void main(String[] args) {
+		System.out.println("Welcome to the X BookStore!");
+		System.out.println("Are you a registered user? (Y or N)");
+		//Y, N, O
+		//if Y
+		{
+		//set user as R and get user info
+		System.out.println("get name,password");
+		}
+		//else if N
+		{
+		//set user as U
+		System.out.println("Welcome to the X BookStore!");
+		}
+		//Else if o
+		{
+		//set user as Owner and get info
+		System.out.println("Welcome to the X BookStore!");
+		}
+		//Else
+		//go back to start
+		
+		//loop starts here, re-loops when book is chosen or goes back
+		System.out.println("What would you like to do?:");
+		System.out.println("Browse");
+		System.out.println("Purchace");
+		System.out.println("Exit");
+		//if Browse
+		//when this is set to browse
+		//ask to search for book. ask what they would like to search(name, page, ect)
+		//if info is found, show books that can be applicable to this
+		//allow user to choose from count, 1 2 3
+		//show book inf0
+		//ask user if they want it in checkout basket
+		//if yes, add and loop back
+		//if no, loop back
+	}
+}
