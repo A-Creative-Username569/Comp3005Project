@@ -25,12 +25,12 @@ public class Main
 		if((reg_choice.toLowerCase()).equals("y"))
 		{
 		//set user as R and get user info
-		Status = "Registered";
-		System.out.println("You have chosen: Registered!");
-		System.out.println("Please enter your username: ");
-		String username = getInput.nextLine();//get and store username
-		System.out.println("Please enter your password: ");
-		String password = getInput.nextLine();//get and store password
+			Status = "Registered";
+			System.out.println("You have chosen: Registered!");
+			System.out.println("Please enter your username: ");
+			String username = getInput.nextLine();//get and store username
+			System.out.println("Please enter your password: ");
+			String password = getInput.nextLine();//get and store password
 
 		}
 		//else if N
@@ -43,19 +43,19 @@ public class Main
 		    
 		    
 		//set user as U
-		Status = "Unregistered";
-		System.out.println("You have chosen: Unregistered!");
+			Status = "Unregistered";
+			System.out.println("You have chosen: Unregistered!");
 		}
 		//Else if owner
 		else if((reg_choice.toLowerCase()).equals("o"))
 		{
 		//set user as Owner and get info
-		Status = "Owner";
-		System.out.println("You have chosen: Owner!");
-		System.out.println("Please enter your username: ");
-		String username = getInput.nextLine();//get and store username
-		System.out.println("Please enter your password: ");
-		String password = getInput.nextLine();//get and store password
+			Status = "Owner";
+			System.out.println("You have chosen: Owner!");
+			System.out.println("Please enter your username: ");
+			String username = getInput.nextLine();//get and store username
+			System.out.println("Please enter your password: ");
+			String password = getInput.nextLine();//get and store password
 		}
 		
 		//only let users do this, not owner.
