@@ -7,7 +7,7 @@ public class Main
 {
 	public static void main(String[] args) {
 	    Scanner getInput = new Scanner(System.in);
-	    String Status;//This determines what they can do. whatever they choose sets status to This
+	    String Status = "";//This determines what they can do. whatever they choose sets status to This
 	    //it makes it easier, so we can tell the user 'no' when they try to do someething they cant do
 	    //like an unregistered user buying a book
 		System.out.println("Welcome to the X BookStore!");
