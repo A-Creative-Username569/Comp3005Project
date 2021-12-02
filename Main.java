@@ -25,37 +25,57 @@ public class Main
 		if((reg_choice.toLowerCase()).equals("y"))
 		{
 		//set user as R and get user info
-			Status = "Registered";
-			System.out.println("You have chosen: Registered!");
-			System.out.println("Please enter your username: ");
-			String username = getInput.nextLine();//get and store username
-			System.out.println("Please enter your password: ");
-			String password = getInput.nextLine();//get and store password
+		Status = "Registered";
+		System.out.println("You have chosen: Registered!");
+		System.out.println("Please enter your username: ");
+		String username = getInput.nextLine();//get and store username
+		System.out.println("Please enter your password: ");
+		String password = getInput.nextLine();//get and store password
 
 		}
 		//else if N
-		else if((reg_choice.toLowerCase()).equals("n"))
+		else if(reg_choice.toLowerCase().equals("n"))
 		{
 		    //ask if they would like to Registerer
 		    //if yes, ask for username,passord,billing and shipping info
-		    
-		    
-		    
-		    
-		//set user as U
-			Status = "Unregistered";
-			System.out.println("You have chosen: Unregistered!");
+		
+		System.out.println("You have chosen: Unregistered!");
+		System.out.println("Would you like to register?(y/n)");
+		String RegisterQ = getInput.nextLine();//get and store username
+		while (!(RegisterQ.toLowerCase()).equals ("y") && !(RegisterQ.toLowerCase()).equals ("n"))
+		{
+            System.out.println("ERROR: Input must be 'y' or 'n'");
+            reg_choice = getInput.nextLine(); 
+        }
+        if (RegisterQ.toLowerCase().equals ("y"))
+        {
+        System.out.println("Please enter your username: ");
+		String username = getInput.nextLine();//get and store username
+		System.out.println("Please enter your password: ");
+		String password = getInput.nextLine();//get and store password
+		Status = "Registered";
+        }
+        else if (RegisterQ.toLowerCase().equals ("n"))
+        {
+            //set status
+            Status = "Unregistered";
+        }
+		
+		String newusername = getInput.nextLine();//get and store username
+		String newpassword = getInput.nextLine();//get and store username
+		
+		
 		}
 		//Else if owner
 		else if((reg_choice.toLowerCase()).equals("o"))
 		{
 		//set user as Owner and get info
-			Status = "Owner";
-			System.out.println("You have chosen: Owner!");
-			System.out.println("Please enter your username: ");
-			String username = getInput.nextLine();//get and store username
-			System.out.println("Please enter your password: ");
-			String password = getInput.nextLine();//get and store password
+		Status = "Owner";
+		System.out.println("You have chosen: Owner!");
+		System.out.println("Please enter your username: ");
+		String username = getInput.nextLine();//get and store username
+		System.out.println("Please enter your password: ");
+		String password = getInput.nextLine();//get and store password
 		}
 		
 		//only let users do this, not owner.
@@ -66,17 +86,19 @@ public class Main
     		System.out.println("What would you like to do?:");
     		System.out.println("(b)rowse");
     		System.out.println("(p)urchace");
+    		System.out.println("(t)rack order");
+    		
     		System.out.println("(q)uit");
     		String user_Choice = getInput.nextLine();//get and store password
-    		while (!(user_Choice.toLowerCase()).equals ("b") && !(user_Choice.toLowerCase()).equals ("p")&& !(user_Choice.toLowerCase()).equals ("q"))
+    		while (!(user_Choice.toLowerCase()).equals ("b") && !(user_Choice.toLowerCase()).equals ("p")&& !(user_Choice.toLowerCase()).equals ("q")&& !(user_Choice.toLowerCase()).equals ("t"))
     		{
-                System.out.println("ERROR: Input must be 'b' or 'p' or 'q");
+                System.out.println("ERROR: Input must be 'b' or 'p' or 'q' or 't'" );
                 user_Choice = getInput.nextLine(); 
             }
             
             if((user_Choice.toLowerCase()).equals("b"))
         	{
-        		//when the user chooses a book, it fills the "book chosen" slot. Because you can only do one at a time, if a user chooses another book, it deletes the other book.
+        		//when the user chooses a book, it adds book to the cart.
         		System.out.println("You have chosen: Browse!");
         		System.out.println("How would you like to search for your book?");
         		System.out.println("(n)ame");
@@ -114,6 +136,11 @@ public class Main
         	}
     		else if((user_Choice.toLowerCase()).equals("p"))
     		{
+    		    if(Status.equals("Unregistered"))
+    		    {
+    		        //give error, they can not buy if they are not registered
+    		    }
+    		    else{
     		    //check to see if user has chosen a book 
     		    //if not, say error and bring up menu again
     		    //if so, purchace book from system
@@ -123,6 +150,38 @@ public class Main
 	              String bank_number = getInput.nextLine();//get and billing
 	              System.out.println("Please enter your adress: ");
 	              String adress = getInput.nextLine();//get and store shipping
+	              //ask if they would like to buy
+	              System.out.println("Purchace?(y/n)");
+	              String Purchace_book = getInput.nextLine();//get and store password
+	              while (!(Purchace_book.toLowerCase()).equals ("y") && !(Purchace_book.toLowerCase()).equals ("n"))
+	            	{
+                       System.out.println("ERROR: Input must be 'y' or 'n'");
+                       Purchace_book = getInput.nextLine(); 
+                    }
+                    if((Purchace_book.toLowerCase()).equals("y"))
+                    {
+                        //buy books
+                        //apply an order number. take the most recent order(if none, start at 001) and ad one to it, or make a random number genre
+                        //tell user the order number
+                        //
+                    }
+                    else{
+                        //go back to menu
+                    }
+    		    }
+    		}
+    		else if((user_Choice.toLowerCase()).equals("t"))
+    		{
+    		    //get order info
+    		    System.out.println("You have chosen: Track order!");
+    		    System.out.println("What is your order number?");
+    		    String Track_order = getInput.nextLine();//get tracking number
+    		    //check if order exists, and if not, 
+    		    System.out.println("Your order is:");
+    		    //get date of ordewr(optional)
+    		    //get store name
+    		    //display estimated delivery(2 days)
+    		    
     		}
     		else if((user_Choice.toLowerCase()).equals("q"))
     		{
@@ -134,7 +193,7 @@ public class Main
     	}
 		else//else if owner
 		{
-		    
+		    System.out.println("Welcome back!");
 		}
 		//if Browse
 		//when this is set to browse
