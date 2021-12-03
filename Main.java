@@ -1,6 +1,7 @@
 //notes for the ER diagram
 //Owner needs a username and passowrd if we want the owner to access everything through the store
 
+//note: books added to checkout should only store the book id in an array. it should make it easier
 import java.util.Scanner;  // Import the Scanner class
 
 public class Main
@@ -163,7 +164,11 @@ public class Main
                         //buy books
                         //apply an order number. take the most recent order(if none, start at 001) and ad one to it, or make a random number genre
                         //tell user the order number
-                        //
+                        //take one off of stock number for each book purchaced
+                        
+                        //make program to check stock of other books. make sure
+                        //that there is a minimum threshhold for each book ID
+                        //if the stock is below threshhold, add books by checking the previous months sales 
                     }
                     else{
                         //go back to menu
@@ -194,15 +199,82 @@ public class Main
 		else//else if owner
 		{
 		    System.out.println("Welcome back!");
+		    System.out.println("What would you like to do?:");
+    		System.out.println("(a)dd");
+    		System.out.println("(r)emove");
+    		System.out.println("(s)ales");
+    		
+    		System.out.println("(q)uit");
+    		String owner_Choice = getInput.nextLine();//get and store password
+    		while (!(owner_Choice.toLowerCase()).equals ("a") && !(owner_Choice.toLowerCase()).equals ("r")&& !(owner_Choice.toLowerCase()).equals ("q")&& !(owner_Choice.toLowerCase()).equals ("s"))
+    		{
+                System.out.println("ERROR: Input must be 'a' or 'r' or 's' or 'q'" );
+                owner_Choice = getInput.nextLine(); 
+            }
+            
+            if((owner_Choice.toLowerCase()).equals("s"))
+        	{
+        		//when the user chooses a book, it adds book to the cart.
+        		System.out.println("You have chosen: Sales!");
+        		System.out.println("What sales information would you like to know?");
+        		System.out.println("(s)ales vs Expendatyures");
+        		System.out.println("(g)enre sales");
+        		System.out.println("(a)uther sales");
+        		
+        		System.out.println("(q)uit");
+        		String search_book = getInput.nextLine();//get and store username
+        		while (!(search_book.toLowerCase()).equals ("s") && !(search_book.toLowerCase()).equals ("g")&& !(search_book.toLowerCase()).equals ("a")
+        		&& !(search_book.toLowerCase()).equals ("q"))
+        		{
+                    System.out.println("ERROR: Input must be'n' or 'a' or 'g' or 'i' or 'q'");
+                    search_book = getInput.nextLine(); 
+                }
+                if((search_book.toLowerCase()).equals ("s"))//This line of code should show up a lot
+                {
+                    //get sales, get expences, calculate profit, display all
+                }
+                else if((search_book.toLowerCase()).equals ("g"))
+                {
+                    //filter by genre, add all up
+                }
+                else if((search_book.toLowerCase()).equals ("a"))
+                {
+                    //filter by auther
+                }
+                else if((search_book.toLowerCase()).equals ("q"))
+                {
+                    //quit program, give farwell
+                }
+        	}
+    		else if((owner_Choice.toLowerCase()).equals("r"))
+    		{//get order info
+    		    System.out.println("You have chosen: remove Booksr!");
+    		    System.out.println("Enter the ID of the book you want to remove:");
+    		    String add_book = getInput.nextLine();//get tracking number
+    		    //check if order exists, and if not, 
+    		    System.out.println("Enter how many you would like to remove:");
+    		    String num_books = getInput.nextLine();//get tracking number
+    		    //if book is 0, add an "out of stock"
+    		    //use try catch loop
+    		}
+    		else if((owner_Choice.toLowerCase()).equals("a"))
+    		{
+    		    //get order info
+    		    System.out.println("You have chosen: Add Booksr!");
+    		    System.out.println("Enter the ID of the book you want to add:");
+    		    String add_book = getInput.nextLine();//get tracking number
+    		    //check if order exists, and if not, 
+    		    System.out.println("Enter how many you would like to add:");
+    		    String num_books = getInput.nextLine();//get tracking number
+    		    
+    		    
+    		}
+    		else if((owner_Choice.toLowerCase()).equals("q"))
+    		{
+    		    //say goodbye and break from loop
+    		    System.out.println("You have chosen: Quit!");
+    		    //break;
+    		}
 		}
-		//if Browse
-		//when this is set to browse
-		//ask to search for book. ask what they would like to search(name, page, ect)
-		//if info is found, show books that can be applicable to this
-		//allow user to choose from count, 1 2 3
-		//show book inf0
-		//ask user if they want it in checkout basket
-		//if yes, add and loop back
-		//if no, loop back
 	}
 }
