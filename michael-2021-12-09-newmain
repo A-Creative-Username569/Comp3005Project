@@ -175,7 +175,16 @@ public class Main
                         //buy books
                         //apply an order number. take the most recent order(if none, start at 001) and ad one to it, or make a random number genre
                         //tell user the order number
+                        
                         //take one off of stock number for each book purchaced
+                        
+                        
+                       // if(books_sold > (statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book)) + (some set amount))
+                      // {
+                           //buy books,, send request to warehouse
+                           
+                       //}
+                        
                         
                         //make program to check stock of other books. make sure
                         //that there is a minimum threshhold for each book ID
