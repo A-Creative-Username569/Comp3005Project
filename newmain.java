@@ -11,7 +11,7 @@ import java.util.List;
 
 //for example. using our map to get the stock of a book with the name of name_of_book
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
-public class newmain {
+public class Main {
 	public static void main(String[] args) {
 
 		try {
@@ -28,12 +28,12 @@ public class newmain {
 		Scanner getInput = new Scanner(System.in);
 		String Status = "";
 		System.out.println("Welcome to the X BookStore!");
-		System.out.println("Are you a registered user? (Y or N)");
+		System.out.println("Are you a registered user? (Y or N) OR would you like to just track an order? (t)");
 		String reg_choice = getInput.nextLine();
 		// Owner is hidden so no random person tries for owner(o)
 		// while loop that makes sure user has put right input
 		while (!(reg_choice.toLowerCase()).equals("y") && !(reg_choice.toLowerCase()).equals("n")
-				&& !(reg_choice.toLowerCase()).equals("o")) {
+				&& !(reg_choice.toLowerCase()).equals("o")&& !(reg_choice.toLowerCase()).equals("t")) {
 			System.out.println("ERROR: Input must be 'y' or 'n'");
 			reg_choice = getInput.nextLine();
 		}
@@ -59,7 +59,7 @@ public class newmain {
 			String RegisterQ = getInput.nextLine();// get and store username
 			while (!(RegisterQ.toLowerCase()).equals("y") && !(RegisterQ.toLowerCase()).equals("n")) {
 				System.out.println("ERROR: Input must be 'y' or 'n'");
-				reg_choice = getInput.nextLine();
+				RegisterQ = getInput.nextLine();
 			}
 			if (RegisterQ.toLowerCase().equals("y")) {
 				System.out.println("Please enter your username: ");
@@ -68,13 +68,15 @@ public class newmain {
 				String password = getInput.nextLine();// get and store password
 				Status = "Registered";
 				// add user to system
-			} else if (RegisterQ.toLowerCase().equals("n")) {
+			} 
+			else if (RegisterQ.toLowerCase().equals("n")) 
+			{
 				// set status
 				Status = "Unregistered";
 			}
 
-			String newusername = getInput.nextLine();// get and store username
-			String newpassword = getInput.nextLine();// get and store username
+			//String newusername = getInput.nextLine();// get and store username
+			//String newpassword = getInput.nextLine();// get and store username
 
 		}
 		// Else if owner
@@ -87,11 +89,20 @@ public class newmain {
 			System.out.println("Please enter your password: ");
 			String password = getInput.nextLine();// get and store password
 		}
+		else if ((reg_choice.toLowerCase()).equals("t")) {
+		 //ask for order number
+		 System.out.println("You have chosen: track order!");
+		 System.out.println("Please enter your order number:");
+		 //display order. If nothing is found, quit
+		 return;
+		}
 
 		// only let users do this, not owner.
 		// owner gets its own menu
 		// loop starts here, re-loops when book is chosen or goes back
 		if ((Status.equals("Registered")) || (Status.equals("Unregistered"))) {
+		    while(true)//keep asking until they want to quit
+		    {
 			System.out.println("What would you like to do?:");
 			System.out.println("(b)rowse");
 			System.out.println("(p)urchace");
@@ -123,16 +134,83 @@ public class newmain {
 				}
 				if ((search_book.toLowerCase()).equals("q"))// This line of code should show up a lot
 				{
+				    System.out.println("You have chosen to quit. Thank you.");
+				    return;
 					// quit program, give farwell
 				} else if ((search_book.toLowerCase()).equals("n")) {
+				    System.out.println("Please enter required info: .");
+				    String search_name = getInput.nextLine();// get and store username
+				    System.out.println("Would you like to add to cart?.");
+				    String get_search_A = getInput.nextLine();
+				    
+				    while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+					System.out.println("ERROR: Input must be'y' or 'n'");
+					search_book = getInput.nextLine();
+				}
+				        if((get_search_A.toLowerCase()).equals("y"))
+				        {
+				            //add book id to array List
+				            //arraylist.add(bookid);
+				        }
 					// search book by name
 				} else if ((search_book.toLowerCase()).equals("a")) {
+				    System.out.println("Please enter required info: .");
+				     String search_auther = getInput.nextLine();// get and store username
+				     System.out.println("Would you like to add to cart?.");
+				     String get_search_A = getInput.nextLine();
+				    
+				    while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+					System.out.println("ERROR: Input must be'y' or 'n'");
+					search_book = getInput.nextLine();
+				}
+				        if((get_search_A.toLowerCase()).equals("y"))
+				        {
+				            //add book id to array List
+				            //arraylist.add(bookid);
+				        }
 					// search book by auther name
 				} else if ((search_book.toLowerCase()).equals("g")) {
+				    System.out.println("Please enter required info: .");
+				     String search_genre = getInput.nextLine();// get and store username
+				     System.out.println("Would you like to add to cart?.");
+				     String get_search_A = getInput.nextLine();
+				    
+				    while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+					System.out.println("ERROR: Input must be'y' or 'n'");
+					search_book = getInput.nextLine();
+				}
+				        if((get_search_A.toLowerCase()).equals("y"))
+				        {
+				            //add book id to array List
+				            //arraylist.add(bookid);
+				        }
 					// search book by genre
 				} else if ((search_book.toLowerCase()).equals("i")) {
+				    System.out.println("Please enter required info: .");
+				     String search_isbn = getInput.nextLine();// get and store username
+				     System.out.println("Would you like to add to cart?.");
+				     String get_search_A = getInput.nextLine();
+				    
+				    while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+					System.out.println("ERROR: Input must be'y' or 'n'");
+					search_book = getInput.nextLine();
+				}
+				        if((get_search_A.toLowerCase()).equals("y")) 
+				        {
+				            //add book id to array List
+				            //arraylist.add(bookid);
+				        }
 					// search book by isbn
 				}
+				// while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+				// 	System.out.println("ERROR: Input must be'y' or 'n'");
+				// 	search_book = getInput.nextLine();
+				// }
+				//         if((get_search_A.toLowerCase()).equals("y"))
+				//         {
+				//             //add book id to array List
+				//             //arraylist.add(bookid);
+				//         }
 			} else if ((user_Choice.toLowerCase()).equals("p")) {
 				if (Status.equals("Unregistered")) {
 					// give error, they can not buy if they are not registered
@@ -192,7 +270,7 @@ public class newmain {
 				System.out.println("You have chosen: Quit!");
 				// break;
 			}
-
+		}
 		} else// else if owner
 		{
 			System.out.println("Welcome back!");
@@ -268,53 +346,3 @@ public class newmain {
 	}
 
 }
-
-// import java.sql.*;
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.Scanner;
-// public class Main {
-// public static void main(String[] args) {
-// try (Connection connection =
-// DriverManager.getConnection("jdbc:postgresql://localhost:5432/univ_db",
-// "userid", "passwd");
-// Statement statement = connection.createStatement();
-// )
-// {
-// try {
-// List courses_added = new ArrayList();
-// Scanner input = new Scanner(System.in);
-
-// System.out.println("enter course_id: ");
-
-// String course = input.nextLine();
-// courses_added.add(course);
-// System.out.printf("First course: %s", course);
-// ResultSet resultSet = statement.executeQuery("select prereq_id"+" from
-// prereq"+" where course_id = " + course);
-// System.out.printf("pre-req for this course: %s", resultSet);
-
-// while(true)
-// {
-
-// resultSet = statement.executeQuery("select prereq_id"+" from prereq"+" where
-// course_id = " + resultSet);
-// if(courses_added.contains(resultSet))//checks if there already is the same
-// pre-req for this course
-// {
-// return;
-// }
-// courses_added.add(resultSet);
-// System.out.printf("pre-req for this course: %s", resultSet);
-// }
-
-// }//catch if there are no pre-reqs for this course
-// catch(SQLException sqle) {
-// System.out.printf("There are no pre-requisites for this course" + sqle);
-// }
-
-// } catch (Exception sqle) {
-// System.out.println("Exception: " + sqle);
-// }
-// }
-// }
