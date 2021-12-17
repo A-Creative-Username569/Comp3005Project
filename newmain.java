@@ -11,13 +11,14 @@ import java.util.List;
 
 //for example. using our map to get the stock of a book with the name of name_of_book
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
-public class Main {
+public class newmain {
 	public static void main(String[] args) {
 
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/univ_db", "userid",
-					"passwd");
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+					"msong200");
 			Statement statement = connection.createStatement();
+
 			// This determines what they can do. whatever they choose sets status to This
 			// it makes it easier, so we can tell the user 'no' when they try to do
 			// someething they cant do
