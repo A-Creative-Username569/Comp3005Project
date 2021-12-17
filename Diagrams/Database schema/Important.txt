@@ -1,0 +1,10 @@
+If you want to edit the file:
+-Go to erdplus website->go to the documents section
+-Where you see import click on it
+-Then drag the DatabaseSchema.erdplus to it
+-You should then be able to edit it
+
+For having others edit it:
+-Click on the 3 dots beside the time when the file was made and click export
+
+
