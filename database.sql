@@ -1,130 +1,134 @@
-create table person
+CREATE TABLE person
 (
-    username varchar(20),
-    pass varchar(20),,
-    primary key(username)
+  username VARCHAR(8) NOT NULL,
+  pass VARCHAR(8) NOT NULL,
+  PRIMARY KEY (username)
 );
 
-create table bank
+CREATE TABLE bookstore
 (
-    id varchar(20),
-    primary key(id)
+  order_number INT NOT NULL,
+  book_name VARCHAR(8) NOT NULL,
+  PRIMARY KEY (order_number)
+);
+CREATE TABLE warehouse
+(
+  warehouse_name INT NOT NULL,
+  PRIMARY KEY (warehouse_name)
+);
+CREATE TABLE store_owner
+(
+  email INT NOT NULL,
+  username INT NOT NULL,
+  pass INT NOT NULL,
+  PRIMARY KEY (email)
+);
+CREATE TABLE book
+(
+  ISBN VARCHAR(8) NOT NULL,
+  publisher VARCHAR(8) NOT NULL,
+  genre VARCHAR(8) NOT NULL,
+  title VARCHAR(8) NOT NULL,
+  pages INT NOT NULL,
+  stock FLOAT NOT NULL,
+  author VARCHAR(8) NOT NULL,
+  prices FLOAT NOT NULL,
+  unit_cost FLOAT NOT NULL,
+  PRIMARY KEY (ISBN)
 );
 
-create table bookstore
+CREATE TABLE check_out
 (
-    order_number numeric(20),
-    warehouse_name varchar(20),
-    primary key(order_number)
+  order_id INT NOT NULL,
+  billing_info FLOAT NOT NULL,
+  shipping_info VARCHAR(8) NOT NULL,
+  username VARCHAR(8) NOT NULL,
+  order_number INT NOT NULL,
+  FOREIGN KEY (username) REFERENCES person(username),
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number)
 );
 
-create table publisher
+CREATE TABLE update_order
 (
-    publisher_address varchar(20),
-    book varchar(20),
-    publisher_name varchar(20),
-    phone_number numeric(20),
-    primary key(publisher_address)
+  order_number INT NOT NULL,
+  warehouse_name INT NOT NULL,
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number),
+  FOREIGN KEY (warehouse_name) REFERENCES warehouse(warehouse_name)
+);
+CREATE TABLE request_stock
+(
+  warehouse_name INT NOT NULL,
+  email INT NOT NULL,
+  FOREIGN KEY (warehouse_name) REFERENCES warehouse(warehouse_name),
+  FOREIGN KEY (email) REFERENCES store_owner(email)
 );
 
-create table store_owner
+CREATE TABLE update_stock
 (
-    email varchar(20),
-    username varchar(20),
-    pass varchar(20),
-    primary key(email)
+  order_number INT NOT NULL,
+  email INT NOT NULL,
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number),
+  FOREIGN KEY (email) REFERENCES store_owner(email)
+);
+CREATE TABLE publisher
+(
+  publisher_address VARCHAR(8) NOT NULL,
+  book VARCHAR(8) NOT NULL,
+  publisher_name VARCHAR(8) NOT NULL,
+  phone_number INT NOT NULL,
+  PRIMARY KEY (publisher_address)
 );
 
-create table book
+CREATE TABLE store_book
 (
-    ISBN varchar(20),
-    publisher varchar(20),
-    genre varchar(20),
-    title varchar(20),
-    pages numeric(20),
-    stock numeric(20),
-    author varchar(20),
-    prices numeric(5,2),
-    unit_cost numeric(5,2),
-    primary key(ISBN)
+  order_number INT NOT NULL,
+  ISBN VARCHAR(8) NOT NULL,
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number),
+  FOREIGN KEY (ISBN) REFERENCES book(ISBN)
 );
 
-create table warehouse
+CREATE TABLE book_pub
 (
-    warehouse_name varchar(20),
-    primary key(warehouse_name)
+  ISBN VARCHAR(8) NOT NULL,
+  publisher_address VARCHAR(8) NOT NULL,
+  FOREIGN KEY (ISBN) REFERENCES book(ISBN),
+  FOREIGN KEY (publisher_address) REFERENCES publisher(publisher_address)
 );
 
-
-create table check_out
+CREATE TABLE bank
 (
-    username varchar(20),
-    order_number numeric(20),
-    order_id varchar(20),
-    billing_info varchar(20),
-    shipping_info varchar(20),
-    primary key(username, order_number),
-    foreign key(order_number) references bookstore,
-    foreign key(username) references person
+  id INT NOT NULL,
+  PRIMARY KEY (id)
 );
 
-create table update_order
+CREATE TABLE order_book
 (
-    order_number numeric(20),
-    warehouse_name varchar(20),
-    primary key(order_number,warehouse_name),
-    foreign key(order_number) references check_out(order_number),
-    foreign key(email) references store_owner(email)
+  ISBN INT NOT NULL,
+  BIlling INT NOT NULL,
+  PRIMARY KEY (ISBN)
+);
+CREATE TABLE store_pub
+(
+  order_number INT NOT NULL,
+  publisher_address VARCHAR(8) NOT NULL,
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number),
+  FOREIGN KEY (publisher_address) REFERENCES publisher(publisher_address)
 );
 
-create table update_stock
+CREATE TABLE bank_account
 (
-    order_number numeric(20),
-    email varchar(20) ,
-    primary key(order_number, email),
-    foreign key(order_number) references check_out(order_number),
-    foreign key(email) references store_owner(email)
+  id INT NOT NULL,
+  publisher_address VARCHAR(8) NOT NULL,
+  FOREIGN KEY (id) REFERENCES bank(id),
+  FOREIGN KEY (publisher_address) REFERENCES publisher(publisher_address)
 );
 
-create table request_stock
+CREATE TABLE ordering
 (
-    warehouse_name varchar(20),
-    email varchar(20),
-    primary key(warehouse_name,email),
-    foreign key(warehouse_name) references warehouse(warehouse_name),
-    foreign key(email) references store_owner(email)
+  order_number INT NOT NULL,
+  ISBN INT NOT NULL,
+  FOREIGN KEY (order_number) REFERENCES bookstore(order_number),
+  FOREIGN KEY (ISBN) REFERENCES order_book(ISBN)
 );
-
-
-
-create table store_pub
-(
-    publisher_address varchar(20),
-    order_number numeric(20),
-    primary key(store_address,order_number),
-    foreign key(publisher_address) references publisher(publisher_address),
-    foreign key(order_number) references bookstore(order_number)
-);
-
-
-
-create table bank_account
-(
-    publisher_address varchar(20),
-    id varchar(20),
-    primary key(bank_address, id),
-    foreign key(id) references bank(id),
-    foreign key(publisher_address) references publisher(publisher_address)
-);
-
-create table store_book
-(
-    ISBN varchar(20),
-    order_number numeric(20),
-    primary key(ISBN, order_number),
-    foreign key(ISBN) references book(ISBN),
-    foreign key(order_number) references bookstore(order_number)
-);
-
 
 
