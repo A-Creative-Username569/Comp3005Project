@@ -1,7 +1,7 @@
 create table person
 (
     username varchar(20),
-    pass varchar(20),
+    pass varchar(20),,
     primary key(username)
 );
 
