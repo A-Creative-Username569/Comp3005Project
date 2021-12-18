@@ -1,0 +1,22 @@
+first:
+get book name and price from:
+  book name, auther, isbn, genre
+
+get login information from user, make sure when someone signs in, it is a valid user. I think we can skip this by allowing any username or pass to enter
+
+if it is a new user, still insert it.
+
+
+when adding a book to cart, get books price and add it to an int or double. get price of book from id, add info to int/dbl
+
+when buying a book, change the stock of a book. go through arraylist of books by id, lower stock by one.
+
+make sure that each book is assigned to at least 20 in the original data
+
+when book is bought, check if book is below certain stock amount, and order enough to equal 20. search stock, if below 10, add 10.
+  
+for owner:
+  add book to books, by changing stock count of a book. search by id of book, add to stock
+  
+  get sales reports of a book. We need to add a new field to book called books_sold, to get the reports
+  we can then filter all by genre, total, auther, ect. search by id, get sale information
