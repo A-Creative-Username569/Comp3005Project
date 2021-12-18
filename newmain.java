@@ -13,19 +13,9 @@ import java.util.List;
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
 public class newmain {
 	public static void main(String[] args) {
-
-		try {
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-					"msong200");
-			Statement statement = connection.createStatement();
-
-			// This determines what they can do. whatever they choose sets status to This
-			// it makes it easier, so we can tell the user 'no' when they try to do
-			// someething they cant do
-			// like an unregistered user buying a book
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+		Connection connection = null;
+		ResultSet ret;
+		String temp;
 		Scanner getInput = new Scanner(System.in);
 		String Status = "";
 		System.out.println("Welcome to the X BookStore!");
@@ -219,14 +209,14 @@ public class newmain {
 					// check to see if user has chosen a book
 					// if not, say error and bring up menu again
 					// if so, purchace book from system
-					System.out.println("You have chosen: Purchace!");
+					System.out.println("You have chosen: Purchase!");
 					// ask user to enter info on their billing and shipping
 					System.out.println("Please enter your Card info: ");
 					String bank_number = getInput.nextLine();// get and billing
-					System.out.println("Please enter your adress: ");
-					String adress = getInput.nextLine();// get and store shipping
+					System.out.println("Please enter your address: ");
+					String address = getInput.nextLine();// get and store shipping
 					// ask if they would like to buy
-					System.out.println("Purchace?(y/n)");
+					System.out.println("Purchase?(y/n)");
 					String Purchace_book = getInput.nextLine();// get and store password
 					while (!(Purchace_book.toLowerCase()).equals("y") && !(Purchace_book.toLowerCase()).equals("n")) {
 						System.out.println("ERROR: Input must be 'y' or 'n'");
@@ -238,7 +228,7 @@ public class newmain {
 						// ad one to it, or make a random number genre
 						// tell user the order number
 
-						// take one off of stock number for each book purchaced
+						// take one off of stock number for each book purchased
 
 						// if(books_sold > (statement.executeQuery("select stock"+" from book"+" where
 						// name = " + name_of_book)) + (some set amount))
@@ -248,8 +238,8 @@ public class newmain {
 						// }
 
 						// make program to check stock of other books. make sure
-						// that there is a minimum threshhold for each book ID
-						// if the stock is below threshhold, add books by checking the previous months
+						// that there is a minimum threshold for each book ID
+						// if the stock is below threshold, add books by checking the previous months
 						// sales
 					} else {
 						// go back to menu
@@ -262,7 +252,7 @@ public class newmain {
 				String Track_order = getInput.nextLine();// get tracking number
 				// check if order exists, and if not,
 				System.out.println("Your order is:");
-				// get date of ordewr(optional)
+				// get date of order(optional)
 				// get store name
 				// display estimated delivery(2 days)
 
