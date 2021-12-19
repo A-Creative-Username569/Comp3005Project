@@ -34,6 +34,7 @@ CREATE TABLE book
   author VARCHAR(20) NOT NULL,
   prices FLOAT NOT NULL,
   unit_cost FLOAT NOT NULL,
+  units_sold FLOAT NOT NULL,
   PRIMARY KEY (ISBN)
 );
 
