@@ -14,7 +14,7 @@ import java.util.List;
 
 //for example. using our map to get the stock of a book with the name of name_of_book
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
-public class Main {
+public class ExperimentalMain {
 	public static void main(String[] args) {
 
 		try {
