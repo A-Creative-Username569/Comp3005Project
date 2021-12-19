@@ -29,7 +29,7 @@ public class newmain {
 			reg_choice = getInput.nextLine();
 		}
 		// Y, N, O
-		// if Y
+		// if Yx
 		if ((reg_choice.toLowerCase()).equals("y")) {
 			// set user as R and get user info
 			Status = "Registered";
