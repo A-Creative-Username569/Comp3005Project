@@ -6,9 +6,6 @@ PreparedStatement pStmt = connection.prepareStatement(
 "select title, author, ISBN, genre from book"
 );
 ret = pStmt.executeQuery();
-if(ret.getFetchSize() == 0){
-
-}
 
 get login information from user, make sure when someone signs in, it is a valid user. I think we can skip this by allowing any username or pass to enter
 
