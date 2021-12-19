@@ -48,7 +48,7 @@ insert into bank_account values ('1415 Rainbow road','3005','','');
 insert into store_book values ('','','','');//put something here
 insert into store_book values ('','','','');
 */
-insert into book values ('ISBN1','pub1','Horrer','book1','123','20','auth1','32','10');
-insert into book values ('ISBN2','pub1','scifi','book2','430','24','auth1','40','15');
+insert into book values ('ISBN1','pub1','Horrer','book1','123','20','auth1','32','10','24');
+insert into book values ('ISBN2','pub1','scifi','book2','430','24','auth1','40','15','20');
 insert into bank values ('1');
 insert into bank values ('2');
