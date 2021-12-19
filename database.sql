@@ -117,7 +117,7 @@ CREATE TABLE store_pub
 
 CREATE TABLE bank_account
 (
-  id INT NOT NULL,
+  id VARCHAR(20) NOT NULL,
   publisher_address VARCHAR(20) NOT NULL,
   FOREIGN KEY (id) REFERENCES bank(id),
   FOREIGN KEY (publisher_address) REFERENCES publisher(publisher_address)
