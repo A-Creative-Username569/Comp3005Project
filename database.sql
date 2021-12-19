@@ -43,7 +43,7 @@ CREATE TABLE check_out
   billing_info FLOAT NOT NULL,
   shipping_info VARCHAR(20) NOT NULL,
   username VARCHAR(20) NOT NULL,
-  order_number INT NOT NULL,
+  order_number VARCHAR(20) NOT NULL,
   FOREIGN KEY (username) REFERENCES person(username),
   FOREIGN KEY (order_number) REFERENCES bookstore(order_number)
 );
