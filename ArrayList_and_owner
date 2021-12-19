@@ -1,0 +1,80 @@
+//arraylist
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	    
+	    ArrayList<String> BooksInCart = new ArrayList<String>();
+	   
+	    /////////////////////////////////////
+	    //Temp values to be deleted
+	    int Totalcost = 20;
+	    String username = "Banana";
+	    BooksInCart.add("HArry Potter");
+	    BooksInCart.add("Maze Runner");
+	    ////////////////////////////////////
+	    
+	    //right here is where we add each book name to the array when searched.
+	    
+	    
+		//for buying books
+		System.out.println("Cost: $" + Totalcost);
+		//Thread.sleep(1000);
+		for (int i = 0; i < BooksInCart.size(); i++) 
+		{ 		      
+          System.out.println(BooksInCart.get(i)); //display the books name
+          //get name(or id) and lower book count by 1
+        }
+        System.out.println("You have been charged: $" + Totalcost);
+         System.out.println("Thank you for your purchace, " + username);
+         //set Totalcost to 0
+         BooksInCart.clear();       
+		
+	}
+}
+////////////////////////////////////////////////////////////////////////
+//owner:
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+public class Main
+{
+	public static void main(String[] args) {
+	    
+	    ArrayList<String> BooksInCart = new ArrayList<String>();
+	   
+	    /////////////////////////////////////
+	    //Temp values to be deleted
+	    int Totalcost = 20;
+	    String username = "Banana";
+	    BooksInCart.add("HArry Potter");
+	    BooksInCart.add("Maze Runner");
+	    ////////////////////////////////////
+	    
+	    //right here is where we add each book name to the array when searched.
+	    
+	    
+		//for buying books
+		System.out.println("Sales vs expenditures: ");
+		System.out.println("Total Sales: ");//+ amount of books total sold, 
+		System.out.println("total expences per book");//+ amount of books sold, times the cost of each book
+		//System.out.println("Sales per auther ");
+		System.out.println("Sales per auther ");
+		System.out.println("books sold per auther");//+ amount of books total sold, 
+		System.out.println("Sales per genre: ");
+		System.out.println("Total Sales: ");//+ amount of books total sold, 
+		//Thread.sleep(1000);
+		for (int i = 0; i < BooksInCart.size(); i++) 
+		{ 		      
+          System.out.println(BooksInCart.get(i)); //display the books name
+          //get name(or id) and lower book count by 1
+        }
+        System.out.println("You have been charged: $" + Totalcost);
+         System.out.println("Thank you for your purchace, " + username);
+         //set Totalcost to 0
+         BooksInCart.clear();       
+		
+	}
+}
