@@ -7,6 +7,7 @@ import java.util.Scanner; // Import the Scanner class
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 //ResultSet resultSet = statement.executeQuery("select prereq_id"+" from prereq"+" where course_id = " + course);
 
@@ -15,9 +16,13 @@ import java.util.List;
 //for example. using our map to get the stock of a book with the name of name_of_book
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
 public class Main {
+	static Connection connection;
+	static PreparedStatement pStmt;
 	public static void main(String[] args) {
-		Connection connection;
 		ResultSet ret;
+		String username = "";
+		String password = "";
+		ArrayList<String> BooksInCart = new ArrayList<String>();
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
 					"msong200");
@@ -47,9 +52,9 @@ public class Main {
 				Status = "Registered";
 				System.out.println("You have chosen: Registered!");
 				System.out.println("Please enter your username: ");
-				String username = getInput.nextLine();// get and store username
+				username = getInput.nextLine();// get and store username
 				System.out.println("Please enter your password: ");
-				String password = getInput.nextLine();// get and store password
+				password = getInput.nextLine();// get and store password
 
 			}
 			// else if N
@@ -66,11 +71,12 @@ public class Main {
 				}
 				if (RegisterQ.toLowerCase().equals("y")) {
 					System.out.println("Please enter your username: ");
-					String username = getInput.nextLine();// get and store username
+					username = getInput.nextLine();// get and store username
 					System.out.println("Please enter your password: ");
-					String password = getInput.nextLine();// get and store password
+					password = getInput.nextLine();// get and store password
 					Status = "Registered";
 					// add user to system
+					registerUser(username,password);
 				}
 				else if (RegisterQ.toLowerCase().equals("n"))
 				{
@@ -88,9 +94,9 @@ public class Main {
 				Status = "Owner";
 				System.out.println("You have chosen: Owner!");
 				System.out.println("Please enter your username: ");
-				String username = getInput.nextLine();// get and store username
+				username = getInput.nextLine();// get and store username
 				System.out.println("Please enter your password: ");
-				String password = getInput.nextLine();// get and store password
+				password = getInput.nextLine();// get and store password
 			}
 			else if ((reg_choice.toLowerCase()).equals("t")) {
 				//ask for order number
@@ -146,7 +152,7 @@ public class Main {
 							String search_name = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
 
-							PreparedStatement pStmt = connection.prepareStatement(
+							pStmt = connection.prepareStatement(
 									"select title, author, ISBN, genre from book where title = ?"
 							);
 							pStmt.setString(1, search_name);
@@ -167,16 +173,21 @@ public class Main {
 							System.out.println("Would you like to add to cart?.");
 							String get_search_A = getInput.nextLine();
 
-							while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
+							while (!(get_search_A).equalsIgnoreCase("y") && !(get_search_A).equalsIgnoreCase("n")) {
 								System.out.println("ERROR: Input must be'y' or 'n'");
-								search_book = getInput.nextLine();
+								get_search_A = getInput.nextLine();
 							}
-							if((get_search_A.toLowerCase()).equals("y"))
+							if((get_search_A).equalsIgnoreCase("y"))
 							{
 								///////////////////////////////////////////////////////////////////
-								ResultSet resultSet;
-								resultSet = (statement.executeQuery("select price"+" from book"+" where name = " + search_name));
-								totalCost +=  (int)resultSet.getLong(1);
+								pStmt = connection.prepareStatement(
+										"select prices from book where title =  ?"
+								);
+								pStmt.setString(1, search_name);
+								ret = pStmt.executeQuery();
+								while(ret.next()) {
+									totalCost += ret.getInt(1);
+								}
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
 								//arraylist.add(bookid);
@@ -187,7 +198,7 @@ public class Main {
 							System.out.println("Please enter required info: .");
 							String search_author = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
-							PreparedStatement pStmt = connection.prepareStatement(
+							 pStmt = connection.prepareStatement(
 									"select title, author, ISBN, genre from book where author = ?"
 							);
 							pStmt.setString(1, search_author);
@@ -206,14 +217,21 @@ public class Main {
 
 							while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
 								System.out.println("ERROR: Input must be'y' or 'n'");
-								search_book = getInput.nextLine();
+								get_search_A = getInput.nextLine();
 							}
-							if((get_search_A.toLowerCase()).equals("y"))
+							if((get_search_A).equalsIgnoreCase("y"))
 							{
 								///////////////////////////////////////////////////////////////////
-								ResultSet resultSet;
-								resultSet = (statement.executeQuery("select price"+" from book"+" where name = " + search_author));
-								totalCost +=  (int)resultSet.getLong(1);
+								//////////////////////
+								pStmt = connection.prepareStatement(
+										"select prices from book where author =  ?"
+								);
+								pStmt.setString(1, search_author);
+								ret = pStmt.executeQuery();
+								while(ret.next()) {
+									totalCost += ret.getInt(1);
+								}
+
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
 								//arraylist.add(bookid);
@@ -223,7 +241,7 @@ public class Main {
 							System.out.println("Please enter required info: .");
 							String search_genre = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
-							PreparedStatement pStmt = connection.prepareStatement(
+							pStmt = connection.prepareStatement(
 									"select title, author, ISBN, genre from book where genre = ?"
 							);
 							pStmt.setString(1, search_genre);
@@ -242,14 +260,20 @@ public class Main {
 
 							while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
 								System.out.println("ERROR: Input must be'y' or 'n'");
-								search_book = getInput.nextLine();
+								get_search_A = getInput.nextLine();
 							}
 							if((get_search_A).equalsIgnoreCase("y"))
 							{
 								///////////////////////////////////////////////////////////////////
-								ResultSet resultSet;
-								resultSet = (statement.executeQuery("select price"+" from book"+" where name = " + search_genre));
-								totalCost +=  (int)resultSet.getLong(1);
+								pStmt = connection.prepareStatement(
+										"select prices from book where genre =  ?"
+								);
+								pStmt.setString(1, search_genre);
+								ret = pStmt.executeQuery();
+								while(ret.next()) {
+									totalCost += ret.getInt(1);
+									System.out.println(totalCost);
+								}
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
 								//arraylist.add(bookid);
@@ -259,7 +283,7 @@ public class Main {
 							System.out.println("Please enter required info: .");
 							String search_isbn = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
-							PreparedStatement pStmt = connection.prepareStatement(
+							pStmt = connection.prepareStatement(
 									"select title, author, ISBN, genre from book where ISBN = ?"
 							);
 							pStmt.setString(1, search_isbn);
@@ -279,14 +303,20 @@ public class Main {
 
 							while (!(get_search_A.toLowerCase()).equals("y") && !(get_search_A.toLowerCase()).equals("n")) {
 								System.out.println("ERROR: Input must be'y' or 'n'");
-								search_book = getInput.nextLine();
+								get_search_A = getInput.nextLine();
 							}
-							if((get_search_A.toLowerCase()).equals("y"))
+							if((get_search_A).equalsIgnoreCase("y"))
 							{
 								///////////////////////////////////////////////////////////////////
-								ResultSet resultSet;
-								resultSet = (statement.executeQuery("select price"+" from book"+" where name = " + search_isbn));
-								totalCost +=  (int)resultSet.getLong(1);
+								pStmt = connection.prepareStatement(
+										"select prices from book where ISBN =  ?"
+								);
+								pStmt.setString(1, search_isbn);
+								ret = pStmt.executeQuery();
+								while(ret.next()) {
+									totalCost += ret.getInt(1);
+									System.out.println(totalCost);
+								}
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
 								//arraylist.add(bookid);
@@ -302,34 +332,77 @@ public class Main {
 						//             //add book id to array List
 						//             //arraylist.add(bookid);
 						//         }
-					} else if ((user_Choice.toLowerCase()).equals("p")) {
-						System.out.println("Here5");
+					} else if ((user_Choice).equalsIgnoreCase("p")) {
 						if (Status.equals("Unregistered")) {
-							System.out.println("You need to be a member to sign in. THe cost of your books are " + totalCost);
+							System.out.println("You need to be a member to sign in. The cost of your books are " + totalCost);
 							//
 							// give error, they can not buy if they are not registered
 						} else {
 							// check to see if user has chosen a book
 							// if not, say error and bring up menu again
 							// if so, purchace book from system
-							System.out.println("You have chosen: Purchace!");
+							if(totalCost == 0){
+								System.out.println("Your cart is empty please select a book to purchase");
+								continue;
+							}
+							System.out.println("You have chosen: Purchase!");
 							// ask user to enter info on their billing and shipping
 							System.out.println("Please enter your Card info: ");
 							String bank_number = getInput.nextLine();// get and billing
-							System.out.println("Please enter your adress: ");
-							String adress = getInput.nextLine();// get and store shipping
+
+							System.out.println("Please enter your address: ");
+							String address = getInput.nextLine();// get and store shipping
 							// ask if they would like to buy
-							System.out.println("Purchace?(y/n)");
-							String Purchace_book = getInput.nextLine();// get and store password
-							while (!(Purchace_book.toLowerCase()).equals("y") && !(Purchace_book.toLowerCase()).equals("n")) {
+							System.out.println("Purchase?(y/n)");
+							String Purchase_book = getInput.nextLine();// get and store password
+							while (!(Purchase_book).equalsIgnoreCase("y") && !(Purchase_book).equalsIgnoreCase("n")) {
 								System.out.println("ERROR: Input must be 'y' or 'n'");
-								Purchace_book = getInput.nextLine();
+								Purchase_book = getInput.nextLine();
 							}
-							if ((Purchace_book.toLowerCase()).equals("y")) {
+							if ((Purchase_book).equalsIgnoreCase("y")) {
 								// buy books
 								// apply an order number. take the most recent order(if none, start at 001) and
 								// ad one to it, or make a random number genre
 								// tell user the order number
+								while(true) {
+									int order_number = random();
+									pStmt=connection.prepareStatement("select order_number from check_out where order_number = ?");
+									pStmt.setString(1,String.valueOf(order_number));
+									ret = pStmt.executeQuery();
+									if(ret.getFetchSize() == 0){
+
+										for(int i = 0; i < BooksInCart.size();i++) {
+											pStmt = connection.prepareStatement("insert into bookstore values(?,?)");
+											pStmt.setString(1, String.valueOf(order_number));
+											pStmt.setString(2,BooksInCart.get(i));
+											pStmt.executeUpdate();
+										}
+
+										pStmt = connection.prepareStatement("insert into checkout values(?,?,?,?)");
+										pStmt.setString(1,username);
+										pStmt.setString(2,String.valueOf(order_number));
+										pStmt.setString(4,bank_number);
+										pStmt.setString(5,address);
+										pStmt.executeUpdate();
+
+
+										break;
+
+
+									}
+								}
+								System.out.println("MADE IT");
+								/*
+								pStmt = connection.prepareStatement(
+										"select order_number from check_out"
+								);
+
+								ret = pStmt.executeQuery();
+								while(ret.next()) {
+									 int num = Integer.parseInt(ret.getString(1));
+									System.out.println(num);
+								}
+								*/
 
 								// take one off of stock number for each book purchaced
 
@@ -437,5 +510,39 @@ public class Main {
 		}
 	}
 
+	public static int random(){
+		int randomNum = ThreadLocalRandom.current().nextInt(1, 10000 + 1);
+		return randomNum;
+	}
+
+	public static void registerUser(String user, String pass) throws SQLException {
+
+		ResultSet ret;
+		Scanner getInput = new Scanner(System.in);
+		while(true) {
+			pStmt = connection.prepareStatement(
+					"select username from person where username = ?");
+			pStmt.setString(1,user);
+			ret = pStmt.executeQuery();
+			if(ret.getFetchSize() == 0){
+				break;
+			}
+			else{
+				System.out.println("Enter a new username, that one has been taken");
+				user = getInput.nextLine();
+			}
+		}
+		try {
+			pStmt = connection.prepareStatement(
+					"insert into person values(?,?)"
+			);
+			pStmt.setString(1, user);
+			pStmt.setString(2, pass);
+			pStmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }
