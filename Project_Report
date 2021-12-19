@@ -1,0 +1,51 @@
+Project report (To be reformated)
+
+2.1
+put the ER Diagram here, and the assumptions underneath
+
+2.2
+Put the Relational schema here
+
+2.3
+Normalization goes here
+
+2.4
+final schema design, like the university schema done in class
+
+2.5
+Descrioption of the program.
+The program first welcomes the user to the store.
+It first asks if the user is registered or not, or if they would like to just track an order. Hidden is an option to identify as owner. They will be asked to sign in.
+  If yes, the user is asked to sign in, and is shown a menu of what they can do
+  If no, the user is asked if they would like to create an account or not
+    if yes to creating an account, the user will be asked to put in username and password. Once signed in, the user will be shown a menu like that of a registered user.
+    and if no to creating an account, they will be shown a menu like that of a registered user.
+  The menu shown to all askes if the user wants to browse, purchace, or quit.
+  If browse, the user can search for a book, and add the book to cart if they want to. If purchace, they can be brought to the purchace screen
+  No matter what status you are, registered or not, you can add books to cart and search for books.
+  Only when the user tries to pay, if they are unregistered they will be told they can not go through with paying
+  If they are registered, It will ask for shipping and billing information
+  Once the order is completed, it will bring the user back to the same menu to be able to browse or purchace books again or quit
+ Back to the beginning, the owner can be accessed as a hidden option from a user. The owner still needs to sign in.
+ Once signed in, the owner can access reports that they choose from
+ They can also order more books when searching a books name.
+  
+    
+Screenshots are needed for each line above
+                                              
+2.6
+Any bonus stuff we have, if any
+
+2.7
+github link
+Include a README with the instructions of running the program
+
+
+
+2.8
+Availibility. We are all availible anytime after 11am every day, other than exam time.
+
+
+
+Other information:
+Submission is one pdf, containing all our names and student numbers, and the project report above
