@@ -25,7 +25,7 @@ public class Main {
 		ArrayList<String> BooksInCart = new ArrayList<String>();
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-					"msong200");
+					"pswd");
 			Statement statement = connection.createStatement();
 			// This determines what they can do. whatever they choose sets status to This
 			// it makes it easier, so we can tell the user 'no' when they try to do
