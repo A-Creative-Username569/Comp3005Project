@@ -97,7 +97,7 @@ CREATE TABLE book_pub
 
 CREATE TABLE bank
 (
-  id INT NOT NULL,
+  id VARCHAR(20) NOT NULL,
   PRIMARY KEY (id)
 );
 
