@@ -39,7 +39,6 @@ CREATE TABLE book
 
 CREATE TABLE check_out
 (
-  order_id INT NOT NULL,
   billing_info VARCHAR(20) NOT NULL,
   shipping_info VARCHAR(20) NOT NULL,
   username VARCHAR(20) NOT NULL,
