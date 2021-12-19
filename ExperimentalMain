@@ -16,9 +16,10 @@ import java.util.List;
 //ResultSet resultSet = statement.executeQuery("select stock"+" from book"+" where name = " + name_of_book);
 public class ExperimentalMain {
 	public static void main(String[] args) {
-
+		Connection connection;
+		ResultSet ret;
 		try {
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/univ_db", "userid",
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/univ_db", "userid",
 					"passwd");
 			Statement statement = connection.createStatement();
 			// This determines what they can do. whatever they choose sets status to This
@@ -131,7 +132,7 @@ public class ExperimentalMain {
 				while (!(search_book.toLowerCase()).equals("n") && !(search_book.toLowerCase()).equals("a")
 						&& !(search_book.toLowerCase()).equals("g")
 						&& !(search_book.toLowerCase()).equals("i") && !(search_book.toLowerCase()).equals("q")) {
-					System.out.println("ERROR: Input must be'n' or 'a' or 'g' or 'i' or 'q'");
+					System.out.println("ERROR: Input must be 'n' or 'a' or 'g' or 'i' or 'q'");
 					search_book = getInput.nextLine();
 				}
 				if ((search_book.toLowerCase()).equals("q"))// This line of code should show up a lot
@@ -140,13 +141,25 @@ public class ExperimentalMain {
 				    return;
 				    
 					// quit program, give farwell
-				} else if ((search_book.toLowerCase()).equals("n")) {
+				} else if ((search_book).equalsIgnoreCase("n")) {
+					System.out.println("Here1");
 				    System.out.println("Please enter required info: .");
 				    String search_name = getInput.nextLine();// get and store username
 				    //////////////////////////////////////////////////////////////////
-				     ResultSet resultSet = statement.executeQuery("select isbn"+" from book"+" where name = " + search_name);
-				     System.out.println("The book you chose is: "+ resultSet);
-				     System.out.println("The price of the book is: "+ statement.executeQuery("select price"+" from book"+" where name = " + search_name));
+
+						PreparedStatement pStmt = connection.prepareStatement(
+								"select title, author, ISBN, genre from book where name = ?"
+						);
+						pStmt.setString(1, search_name);
+						ret = pStmt.executeQuery();
+
+
+					 String title  = ret.getString(1);
+					 System.out.println(title);
+					 System.out.println("MADE IT HERE");
+				     //ResultSet resultSet = statement.executeQuery("select isbn"+" from book"+" where name = " + search_name);
+				     //System.out.println("The book you chose is: "+ resultSet);
+				     //System.out.println("The price of the book is: "+ statement.executeQuery("select price"+" from book"+" where name = " + search_name));
 				     
 				     ///////////////////////////////////////////////////////////////////
 				    System.out.println("Would you like to add to cart?.");
@@ -166,7 +179,8 @@ public class ExperimentalMain {
 				            //arraylist.add(bookid);
 				        }
 					// search book by name
-				} else if ((search_book.toLowerCase()).equals("a")) {
+				} else if ((search_book).equalsIgnoreCase("a")) {
+					System.out.println("Here2");
 				    System.out.println("Please enter required info: .");
 				     String search_auther = getInput.nextLine();// get and store username
 				     //////////////////////////////////////////////////////////////////
@@ -192,7 +206,8 @@ public class ExperimentalMain {
 				            //arraylist.add(bookid);
 				        }
 					// search book by auther name
-				} else if ((search_book.toLowerCase()).equals("g")) {
+				} else if ((search_book).equalsIgnoreCase("g")) {
+					System.out.println("Here3");
 				    System.out.println("Please enter required info: .");
 				     String search_genre = getInput.nextLine();// get and store username
 				     //////////////////////////////////////////////////////////////////
@@ -207,7 +222,7 @@ public class ExperimentalMain {
 					System.out.println("ERROR: Input must be'y' or 'n'");
 					search_book = getInput.nextLine();
 				}
-				        if((get_search_A.toLowerCase()).equals("y"))
+				        if((get_search_A).equalsIgnoreCase("y"))
 				        {
 				            ///////////////////////////////////////////////////////////////////
 				            resultSet = (statement.executeQuery("select price"+" from book"+" where name = " + search_genre));
@@ -217,7 +232,8 @@ public class ExperimentalMain {
 				            //arraylist.add(bookid);
 				        }
 					// search book by genre
-				} else if ((search_book.toLowerCase()).equals("i")) {
+				} else if ((search_book).equalsIgnoreCase("i")) {
+					System.out.println("Here4");
 				    System.out.println("Please enter required info: .");
 				     String search_isbn = getInput.nextLine();// get and store username
 				     //////////////////////////////////////////////////////////////////
@@ -254,6 +270,7 @@ public class ExperimentalMain {
 				//             //arraylist.add(bookid);
 				//         }
 			} else if ((user_Choice.toLowerCase()).equals("p")) {
+				System.out.println("Here5");
 				if (Status.equals("Unregistered")) {
 				    System.out.println("You need to be a member to sign in. THe cost of your books are " + totalCost);
 				    //
