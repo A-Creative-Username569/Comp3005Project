@@ -449,12 +449,15 @@ public class Main {
 						// display estimated delivery(2 days)
 						System.out.println("The order is on its way from Amazon");
 						System.out.println("The books ordered were:");
+
 						pStmt = connection.prepareStatement("select book_name from bookstore where order_number = ?");
 						pStmt.setString(1,Track_order);
 						ret = pStmt.executeQuery();
 						while(ret.next()){
 							System.out.println(ret.getString(1));
 						}
+
+
 					} else if ((user_Choice.toLowerCase()).equals("q")) {
 						// say goodbye and break from loop
 						System.out.println("You have chosen: Quit!");
@@ -496,10 +499,65 @@ public class Main {
 					if ((search_book.toLowerCase()).equals("s"))// This line of code should show up a lot
 					{
 						// get sales, get expences, calculate profit, display all
+						float total_rev = 0;
+						float cost = 0;
+						pStmt = connection.prepareStatement("select prices, unit_cost, units_sold from book");
+						ret = pStmt.executeQuery();
+						while(ret.next()){
+							total_rev += ret.getFloat(1)*ret.getFloat(3);
+							cost += ret.getFloat(2)*ret.getFloat(3);
+						}
+						System.out.println("Total revenue: " + total_rev);
+						System.out.println("Total costs:" + cost);
 					} else if ((search_book.toLowerCase()).equals("g")) {
-						// filter by genre, add all up
+
+						//reports math
+
+						//ArrayList<String> genre_Sales = new ArrayList<String>();//arraylist that contains the name of every book in the same genre
+
+						//get genre of book
+						//price
+						//sold
+						//multipl
+						int Total_Genre_Sales = 0;
+						System.out.println("What is the genre of the reports?");
+						String get_search_Genre = getInput.nextLine();
+						//below goes in a loop to find every book with said genre
+						//////////////////////////////////////////
+						float margin = 0;
+						float totalSale = 0;
+						pStmt= connection.prepareStatement("select prices, unit_cost, units_sold from book where genre = ?");
+						pStmt.setString(1,get_search_Genre);
+						ret = pStmt.executeQuery();
+						while(ret.next()){
+							margin += ret.getFloat(1) - ret.getFloat(2);
+							totalSale = margin * ret.getFloat(3);
+							Total_Genre_Sales+=totalSale;
+							margin  = 0;
+						}
+						System.out.println("Total revenue from " + get_search_Genre + " was: " + Total_Genre_Sales);
+						//////////////////////////////////////////
+
+
+
 					} else if ((search_book.toLowerCase()).equals("a")) {
 						// filter by auther
+						int Total_Author_Sales = 0;
+						System.out.println("What is the author of the reports?");
+						String get_search_Author = getInput.nextLine();
+						//below goes in a loop to find every book with said genre
+						//////////////////////////////////////////
+						float margin = 0;
+						float totalSale = 0;
+						pStmt= connection.prepareStatement("select prices, unit_cost, units_sold from book where author = ?");
+						pStmt.setString(1,get_search_Author);
+						ret = pStmt.executeQuery();
+						while(ret.next()){
+							margin += ret.getFloat(1) - ret.getFloat(2);
+							totalSale = margin * ret.getFloat(3);
+							Total_Author_Sales+=totalSale;
+						}
+						System.out.println("Total revenue from " + get_search_Author + " was: " + Total_Author_Sales);
 					} else if ((search_book.toLowerCase()).equals("q")) {
 						// quit program, give farwell
 					}
