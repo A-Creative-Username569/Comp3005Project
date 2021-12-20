@@ -25,7 +25,7 @@ public class Main {
 		ArrayList<String> BooksInCart = new ArrayList<String>();
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-					"msong200");
+					"pswd");
 			Statement statement = connection.createStatement();
 			// This determines what they can do. whatever they choose sets status to This
 			// it makes it easier, so we can tell the user 'no' when they try to do
@@ -153,7 +153,7 @@ public class Main {
 							//////////////////////////////////////////////////////////////////
 
 							pStmt = connection.prepareStatement(
-									"select title, author, ISBN, genre from book where title = ?"
+									"select title, author, ISBN, genre, prices from book where title = ?"
 							);
 							pStmt.setString(1, search_name);
 							ret = pStmt.executeQuery();
@@ -163,7 +163,8 @@ public class Main {
 								String author = ret.getString(2);
 								String ISBN = ret.getString(3);
 								String genre = ret.getString(4);
-								System.out.println(title + " " + author + " " + ISBN + " " + genre);
+								float price = ret.getFloat(5);
+								System.out.println("title: " + title + " author: " + author + " ISBN: " + ISBN + " genre: " + genre+ " price: $" + price);
 							}
 							//ResultSet resultSet = statement.executeQuery("select isbn"+" from book"+" where name = " + search_name);
 							//System.out.println("The book you chose is: "+ resultSet);
@@ -201,7 +202,7 @@ public class Main {
 							String search_author = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
 							 pStmt = connection.prepareStatement(
-									"select title, author, ISBN, genre from book where author = ?"
+									"select title, author, ISBN, genre,prices from book where author = ?"
 							);
 							pStmt.setString(1, search_author);
 							ret = pStmt.executeQuery();
@@ -211,7 +212,8 @@ public class Main {
 								String author = ret.getString(2);
 								String ISBN = ret.getString(3);
 								String genre = ret.getString(4);
-								System.out.println(title + " " + author + " " + ISBN + " " + genre);
+								float price = ret.getFloat(5);
+								System.out.println("title: " + title + " author: " + author + " ISBN: " + ISBN + " genre: " + genre+ " price: $" + price);
 							}
 							///////////////////////////////////////////////////////////////////
 							System.out.println("Would you like to add to cart?.");
@@ -245,7 +247,7 @@ public class Main {
 							String search_genre = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
 							pStmt = connection.prepareStatement(
-									"select title, author, ISBN, genre from book where genre = ?"
+									"select title, author, ISBN, genre, prices from book where genre = ?"
 							);
 							pStmt.setString(1, search_genre);
 							ret = pStmt.executeQuery();
@@ -255,7 +257,8 @@ public class Main {
 								String author = ret.getString(2);
 								String ISBN = ret.getString(3);
 								String genre = ret.getString(4);
-								System.out.println(title + " " + author + " " + ISBN + " " + genre);
+								float price = ret.getFloat(5);
+								System.out.println("title: " + title + " author: " + author + " ISBN: " + ISBN + " genre: " + genre+ " price: $" + price);
 							}
 							///////////////////////////////////////////////////////////////////
 							System.out.println("Would you like to add to cart?.");
@@ -287,7 +290,7 @@ public class Main {
 							String search_isbn = getInput.nextLine();// get and store username
 							//////////////////////////////////////////////////////////////////
 							pStmt = connection.prepareStatement(
-									"select title, author, ISBN, genre from book where ISBN = ?"
+									"select title, author, ISBN, genre, prices from book where ISBN = ?"
 							);
 							pStmt.setString(1, search_isbn);
 							ret = pStmt.executeQuery();
@@ -297,7 +300,8 @@ public class Main {
 								String author = ret.getString(2);
 								String ISBN = ret.getString(3);
 								String genre = ret.getString(4);
-								System.out.println(title + " " + author + " " + ISBN + " " + genre);
+								float price = ret.getFloat(5);
+								System.out.println("title: " + title + " author: " + author + " ISBN: " + ISBN + " genre: " + genre+ " price: $" + price);
 							}
 							///////////////////////////////////////////////////////////////////
 							System.out.println("Would you like to add to cart?.");
@@ -338,7 +342,7 @@ public class Main {
 						//         }
 					} else if ((user_Choice).equalsIgnoreCase("p")) {
 						if (Status.equals("Unregistered")) {
-							System.out.println("You need to be a member to sign in. The cost of your books are " + totalCost);
+							System.out.println("You need to be a member to sign in. The cost of your books are $" + totalCost);
 							//
 							// give error, they can not buy if they are not registered
 						} else {
@@ -387,7 +391,7 @@ public class Main {
 											while(ret.next()){
 												sold = ret.getFloat(1);
 											}
-											System.out.println(sold);
+
 											sold+=1;
 											pStmt = connection.prepareStatement("update book set units_sold = ? where title = ?");
 											pStmt.setFloat(1,sold);
@@ -400,7 +404,7 @@ public class Main {
 											while(ret.next()){
 												sold = ret.getFloat(1);
 											}
-											System.out.println(sold);
+
 										}
 
 										pStmt = connection.prepareStatement("insert into check_out values(?,?,?,?)");
@@ -410,7 +414,7 @@ public class Main {
 										pStmt.setString(4,String.valueOf(order_number));
 										pStmt.executeUpdate();
 
-										System.out.println("Total cost was" + totalCost);
+										System.out.println("Total cost was: $" + totalCost);
 										break;
 
 									}
