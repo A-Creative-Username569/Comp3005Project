@@ -25,7 +25,7 @@ public class Main {
 		ArrayList<String> BooksInCart = new ArrayList<String>();
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-					"pswd");
+					"msong200");
 			Statement statement = connection.createStatement();
 			// This determines what they can do. whatever they choose sets status to This
 			// it makes it easier, so we can tell the user 'no' when they try to do
@@ -181,13 +181,15 @@ public class Main {
 							{
 								///////////////////////////////////////////////////////////////////
 								pStmt = connection.prepareStatement(
-										"select prices from book where title =  ?"
+										"select prices, title from book where title =  ?"
 								);
 								pStmt.setString(1, search_name);
 								ret = pStmt.executeQuery();
 								while(ret.next()) {
+									BooksInCart.add(ret.getString(2));
 									totalCost += ret.getInt(1);
 								}
+
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
 								//arraylist.add(bookid);
@@ -224,11 +226,12 @@ public class Main {
 								///////////////////////////////////////////////////////////////////
 								//////////////////////
 								pStmt = connection.prepareStatement(
-										"select prices from book where author =  ?"
+										"select prices, title from book where author =  ?"
 								);
 								pStmt.setString(1, search_author);
 								ret = pStmt.executeQuery();
 								while(ret.next()) {
+									BooksInCart.add(ret.getString(2));
 									totalCost += ret.getInt(1);
 								}
 
@@ -266,13 +269,13 @@ public class Main {
 							{
 								///////////////////////////////////////////////////////////////////
 								pStmt = connection.prepareStatement(
-										"select prices from book where genre =  ?"
+										"select prices, title from book where genre =  ?"
 								);
 								pStmt.setString(1, search_genre);
 								ret = pStmt.executeQuery();
 								while(ret.next()) {
+									BooksInCart.add(ret.getString(2));
 									totalCost += ret.getInt(1);
-									System.out.println(totalCost);
 								}
 								///////////////////////////////////////////////////////////////////
 								//add book id to array List
@@ -309,11 +312,12 @@ public class Main {
 							{
 								///////////////////////////////////////////////////////////////////
 								pStmt = connection.prepareStatement(
-										"select prices from book where ISBN =  ?"
+										"select prices, title from book where ISBN =  ?"
 								);
 								pStmt.setString(1, search_isbn);
 								ret = pStmt.executeQuery();
 								while(ret.next()) {
+									BooksInCart.add(ret.getString(2));
 									totalCost += ret.getInt(1);
 									System.out.println(totalCost);
 								}
@@ -369,6 +373,7 @@ public class Main {
 									pStmt=connection.prepareStatement("select order_number from check_out where order_number = ?");
 									pStmt.setString(1,String.valueOf(order_number));
 									ret = pStmt.executeQuery();
+									float sold = 0;
 									if(ret.getFetchSize() == 0){
 
 										for(int i = 0; i < BooksInCart.size();i++) {
@@ -376,33 +381,44 @@ public class Main {
 											pStmt.setString(1, String.valueOf(order_number));
 											pStmt.setString(2,BooksInCart.get(i));
 											pStmt.executeUpdate();
+											pStmt = connection.prepareStatement("select units_sold from book where title = ?");
+											pStmt.setString(1,BooksInCart.get(i));
+											ret = pStmt.executeQuery();
+											while(ret.next()){
+												sold = ret.getFloat(1);
+											}
+											System.out.println(sold);
+											sold+=1;
+											pStmt = connection.prepareStatement("update book set units_sold = ? where title = ?");
+											pStmt.setFloat(1,sold);
+											pStmt.setString(2,BooksInCart.get(i));
+											pStmt.executeUpdate();
+
+											pStmt = connection.prepareStatement("select units_sold from book where title = ?");
+											pStmt.setString(1,BooksInCart.get(i));
+											ret = pStmt.executeQuery();
+											while(ret.next()){
+												sold = ret.getFloat(1);
+											}
+											System.out.println(sold);
 										}
 
-										pStmt = connection.prepareStatement("insert into checkout values(?,?,?,?)");
-										pStmt.setString(1,username);
-										pStmt.setString(2,String.valueOf(order_number));
-										pStmt.setString(4,bank_number);
-										pStmt.setString(5,address);
+										pStmt = connection.prepareStatement("insert into check_out values(?,?,?,?)");
+										pStmt.setString(1,bank_number);
+										pStmt.setString(2,address);
+										pStmt.setString(3,username);
+										pStmt.setString(4,String.valueOf(order_number));
 										pStmt.executeUpdate();
 
-
+										System.out.println("Total cost was" + totalCost);
 										break;
-
 
 									}
 								}
-								System.out.println("MADE IT");
-								/*
-								pStmt = connection.prepareStatement(
-										"select order_number from check_out"
-								);
 
-								ret = pStmt.executeQuery();
-								while(ret.next()) {
-									 int num = Integer.parseInt(ret.getString(1));
-									System.out.println(num);
-								}
-								*/
+
+
+
 
 								// take one off of stock number for each book purchaced
 
@@ -421,21 +437,28 @@ public class Main {
 								// go back to menu
 							}
 						}
-					} else if ((user_Choice.toLowerCase()).equals("t")) {
+					} else if ((user_Choice).equalsIgnoreCase("t")) {
 						// get order info
 						System.out.println("You have chosen: Track order!");
-						System.out.println("What is your order number?");
+						System.out.println("What is your order number? ");
 						String Track_order = getInput.nextLine();// get tracking number
 						// check if order exists, and if not,
 						System.out.println("Your order is:");
 						// get date of ordewr(optional)
 						// get store name
 						// display estimated delivery(2 days)
-
+						System.out.println("The order is on its way from Amazon");
+						System.out.println("The books ordered were:");
+						pStmt = connection.prepareStatement("select book_name from bookstore where order_number = ?");
+						pStmt.setString(1,Track_order);
+						ret = pStmt.executeQuery();
+						while(ret.next()){
+							System.out.println(ret.getString(1));
+						}
 					} else if ((user_Choice.toLowerCase()).equals("q")) {
 						// say goodbye and break from loop
 						System.out.println("You have chosen: Quit!");
-						// break;
+						break;
 					}
 				}
 			} else// else if owner
@@ -458,7 +481,7 @@ public class Main {
 					// when the user chooses a book, it adds book to the cart.
 					System.out.println("You have chosen: Sales!");
 					System.out.println("What sales information would you like to know?");
-					System.out.println("(s)ales vs Expendatyures");
+					System.out.println("(s)ales vs Expenditures");
 					System.out.println("(g)enre sales");
 					System.out.println("(a)uther sales");
 
@@ -481,22 +504,70 @@ public class Main {
 						// quit program, give farwell
 					}
 				} else if ((owner_Choice.toLowerCase()).equals("r")) {// get order info
-					System.out.println("You have chosen: remove Booksr!");
+					System.out.println("You have chosen: remove Books!");
 					System.out.println("Enter the ID of the book you want to remove:");
 					String add_book = getInput.nextLine();// get tracking number
 					// check if order exists, and if not,
 					System.out.println("Enter how many you would like to remove:");
-					String num_books = getInput.nextLine();// get tracking number
+					float num_books = Float.parseFloat(getInput.nextLine());// get tracking number
 					// if book is 0, add an "out of stock"
 					// use try catch loop
+					float st = 0;
+					pStmt = connection.prepareStatement("select stock from book where isbn = ?");
+					pStmt.setString(1,add_book);
+					ret = pStmt.executeQuery();
+					while(ret.next()){
+						st = ret.getFloat(1);
+					}
+					st -= num_books;
+
+					pStmt = connection.prepareStatement(
+							"update book set stock = ? where isbn = ?"
+					);
+					pStmt.setString(2, add_book);
+					pStmt.setFloat(1, st);
+					pStmt.executeUpdate();
 				} else if ((owner_Choice.toLowerCase()).equals("a")) {
 					// get order info
-					System.out.println("You have chosen: Add Booksr!");
+					System.out.println("You have chosen: Add Books!");
 					System.out.println("Enter the ID of the book you want to add:");
-					String add_book = getInput.nextLine();// get tracking number
+					String isbn = getInput.nextLine();// get tracking number
 					// check if order exists, and if not,
-					System.out.println("Enter how many you would like to add:");
-					String num_books = getInput.nextLine();// get tracking number
+					System.out.println("Enter the publisher");
+					String publisher = getInput.nextLine();// get tracking number
+					System.out.println("Enter the genre");
+					String genre = getInput.nextLine();
+					System.out.println("Enter the title");
+					String title = getInput.nextLine();
+					System.out.println("Enter the pages");
+					int pages = Integer.parseInt(getInput.nextLine());
+					System.out.println("Enter the stock");
+					float stock = Float.parseFloat(getInput.nextLine());
+					System.out.println("Enter the author");
+					String author = getInput.nextLine();
+					System.out.println("Enter the prices");
+					float prices = Float.parseFloat(getInput.nextLine());
+					System.out.println("Enter the unit cost");
+					float unit_cost = Float.parseFloat(getInput.nextLine());
+					System.out.println("Enter the units sold");
+					float units_sold = Float.parseFloat(getInput.nextLine());
+
+					pStmt = connection.prepareStatement(
+							"insert into book values(?,?,?,?,?,?,?,?,?,?)"
+					);
+					pStmt.setString(1, isbn);
+					pStmt.setString(2, publisher);
+					pStmt.setString(3, genre);
+					pStmt.setString(4, title);
+					pStmt.setInt(5, pages);
+					pStmt.setFloat(6, stock);
+					pStmt.setString(7, author);
+					pStmt.setFloat(8, prices);
+					pStmt.setFloat(9, unit_cost);
+					pStmt.setFloat(10, units_sold);
+					pStmt.executeUpdate();
+
+
 
 				} else if ((owner_Choice.toLowerCase()).equals("q")) {
 					// say goodbye and break from loop
